@@ -273,7 +273,8 @@ if __name__ == '__main__':
 #  sentences = 'http://pan.baidu.com/s/1o7hnpmy'
   sentences = '塔氏视星鲶，为辐鳍鱼纲鲶形目视星鲶科的其中一种，为热带淡水鱼，分布于南美洲乌卡雅利河上游流域，体长可达8公分，栖息在底层水域，生活习性不明。'
   sentences = '300欧元相当于多少美元'
-  sentences = '一千马来西亚币可以换成多少韩元'
+  sentences = '我是你妹妹最喜欢和的牛奶的制作者.'
+  sentences = '南池市场有哪几个米其林餐厅?'
 
   sentence = sentences.replace('{', '\t').replace('}', '\t').replace(' ', '').split('\t')[0]
   
