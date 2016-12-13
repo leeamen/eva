@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #coding:utf-8
-import mylog
+import mltoolkits.mylog as mylog
 import myltpmodel as myltp
 import logging
 import jieba

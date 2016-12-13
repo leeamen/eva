@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #coding:utf-8 
-import mylog
+import mltoolkits.mylog as mylog
 import myequation
 import logging
 import os.path
@@ -103,6 +103,10 @@ if __name__ == '__main__':
   logger.setLevel(level=logging.DEBUG)
   logger.info("running %s" % ' '.join(sys.argv))
 
+  #加载词典
+  userdict = './data/userdict.data'
+  jieba.load_userdict(userdict)
+
   # check and process input arguments
   if len(sys.argv) < 3:
       print globals()['__doc__'] % locals()
@@ -119,6 +123,10 @@ if __name__ == '__main__':
   clusters = [Gen1Cluster(model, all_cluster_data, cluster_name) for cluster_name in all_cluster_data.keys()]
   logger.debug('%d', len(clusters))
   
-  sentence = '土俗村参鸡汤的芥末章鱼好吗'
+  sentence = '向日葵餐厅秩序怎么样'
   GenAnswer(sentence, model, clusters)
+
+  while True:
+    sentence = raw_input('输入句子:')
+    GenAnswer(sentence, model, clusters)
 

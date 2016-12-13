@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #coding:utf-8
-import mylog
+from mltoolkits import *
 import myltpmodel as myltp
 import logging
 import jieba
@@ -16,7 +16,7 @@ sys.setdefaultencoding('utf-8')
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
-def walktree(dirname, callback):
+def walktree(dirname, callback, userdata):
   for f in os.listdir(dirname):
     pathname = os.path.join(dirname, f)
     mode = os.stat(pathname).st_mode
@@ -26,15 +26,15 @@ def walktree(dirname, callback):
       #walktree(pathname, callback)
     elif stat.S_ISREG(mode):
       # It's a file, call the callback function
-      callback(pathname)
+      callback(pathname, userdata)
     else:
       # Unknown file type, print a message
       logger.error('Skipping %s', pathname)
-def cutwords(filename):
+def cutwords(filename, userdata):
   if '.txt' != filename[-4:]:
     return
-  logger.debug('文件进行切词:%s', filename)
-  wf = open('./data/all.cuts', 'a')
+  logger.debug('start process file:%s', filename)
+  wf = open(userdata['output'], 'a')
   with open(filename, 'rb') as rf:
     while True:
       line = rf.readline()
@@ -49,10 +49,16 @@ def cutwords(filename):
   wf.close()
 
 if __name__ == '__main__':
+  #加载自定义词典
+  jieba.load_userdict('./data/userdict.data')
   sentence = '该类会将文本中的词语转换为词频矩阵'
   sentence = '南池市场有哪几个米其林餐厅?'
   print '|'.join(jieba.lcut(sentence, cut_all = False))
-  walktree('data', cutwords)
+  #所有txt文件切词
+  userdata = {}
+  userdata['output'] = './data/all.cuts'
+  os.system('rm -f ./data/all.cuts')
+  walktree('data', cutwords, userdata)
   sys.exit()
 #  jieba.analyse.extract_tags(sentence, topK=20, withWeight=False, allowPOS=())
   #自己设置语料库
@@ -65,6 +71,7 @@ if __name__ == '__main__':
 #  rawdata = np.loadtxt(filename , dtype = np.object)
 #  label_data = rawdata[:,0:4]
 #  sentence_data = rawdata[:,4:]
+
   wf = open(filename + '.cuts', 'wb')
   with open(filename, 'rb') as rf:
     while True:
@@ -76,7 +83,7 @@ if __name__ == '__main__':
       sentence = sentence.strip()
       #切词
       cut_list = jieba.lcut(sentence, cut_all = False)
-      wf.write(' '.join(cut_list) + '\n')
+      wf.write(' '.join(cut_list) + ' ')
   wf.flush()
   wf.close()
 
