@@ -52,7 +52,7 @@ if __name__ == '__main__':
   #加载自定义词典
   jieba.load_userdict('./data/userdict.data')
   sentence = '该类会将文本中的词语转换为词频矩阵'
-  sentence = '南池市场有哪几个米其林餐厅?'
+  sentence = '春川辣炒鸡排外表是古典的吗?'
   print '|'.join(jieba.lcut(sentence, cut_all = False))
   #所有txt文件切词
   userdata = {}
@@ -65,13 +65,11 @@ if __name__ == '__main__':
 #  corpus_file = '***.corpus'
 #  tags = jieba.analyse.extract_tags('该类会将文本中的词语转换为词频矩阵', topK=5)
 #  print '|'.join(tags)
-
   filename = sys.argv[1]
   #'user_tag_query.2W.TRAIN.csv'
 #  rawdata = np.loadtxt(filename , dtype = np.object)
 #  label_data = rawdata[:,0:4]
 #  sentence_data = rawdata[:,4:]
-
   wf = open(filename + '.cuts', 'wb')
   with open(filename, 'rb') as rf:
     while True:

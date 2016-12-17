@@ -7,11 +7,47 @@ import xml.etree.cElementTree as et
 import os
 import re
 import pyltp as ltp
+import time
+import csv
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-class Row:
+#返回类型
+class Rules(object):
+  def __init__(self):
+    self.rules = {}
+  def Load(self, fname):
+    with open(fname, 'rb') as rf:
+      try:
+        reader = csv.reader(rf, delimiter = ' ', quotechar = ' ')
+        for row in reader:
+          self.rules[row[0]] = row[1]
+      except:
+        return None
+#    for key in self.rules.keys():
+#      print key, self.rules[key]
+    return self.rules
+
+  def GetValue(self, key):
+    if self.rules.has_key(key):
+      return self.rules[key]
+    return None
+class ParamRules(Rules):
+  def __init__(self):
+    Rules.__init__(self)
+
+class ReturnRules(Rules):
+  def __init__(self):
+    Rules.__init__(self)
+    self.default_key = 'default'
+  def GetReturnType(self, sentence):
+    for key in self.rules.keys():
+      if key in sentence:
+        return self.rules[key]
+    return self.rules[self.default_key]
+
+class Row(object):
   def __init__(self, row):
     self.row = row
 
@@ -20,6 +56,7 @@ class Row:
 
     #
     self.array = filter(lambda x:len(x.strip()) > 0, re.split('{|}', self.row))
+    self.return_type = None
 
     self.sentence = self.array[0].strip()
     param = self.array[1]
@@ -29,12 +66,21 @@ class Row:
         value = a.split('=')[0].strip()
         self.parameter[key] = value
       except:
-        print a
-      #  exit()
-
-    #参数多态标志
-#    self.choice = int(self.array[2].strip()[0])
-
+        #参数列表有空的:{}
+        print '参数列表为空:%s'%(row)
+        #返回类型为第二个
+        self.return_type = self.array[1].strip()
+        break
+    if self.return_type is None:
+      self.return_type = self.array[2].strip()
+    #参数列表处理，取一个
+    if '/' in self.return_type or ']' in self.return_type:
+     # print self.return_type
+      arr = filter(lambda x:len(x.strip()) > 0, re.split('\[|\]|/', self.return_type))
+      if len(arr) > 0:
+        self.return_type = arr[-1]
+     #   print self.return_type
+#        time.sleep(2)
   def GetSentence(self):
     return self.sentence
 
@@ -46,6 +92,8 @@ class Row:
       return self.parameter[key]
     except:
       return None
+  def GetRetureType(self):
+    return self.return_type
 
 class SentenceXmlProcessor:
   def __init__(self):
@@ -274,7 +322,7 @@ if __name__ == '__main__':
   sentences = '塔氏视星鲶，为辐鳍鱼纲鲶形目视星鲶科的其中一种，为热带淡水鱼，分布于南美洲乌卡雅利河上游流域，体长可达8公分，栖息在底层水域，生活习性不明。'
   sentences = '300欧元相当于多少美元'
   sentences = '我是你妹妹最喜欢和的牛奶的制作者.'
-  sentences = '南池市场有哪几个米其林餐厅?'
+  sentences = '春川辣炒鸡排外表是古典的吗?'
 
   sentence = sentences.replace('{', '\t').replace('}', '\t').replace(' ', '').split('\t')[0]
   
