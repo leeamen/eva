@@ -1,7 +1,6 @@
 #!/usr/bin/python
 #coding:utf8
-import mltoolkits.mylog as mylog
-import myltpmodel as myltp
+import mybaselib
 import logging
 import jieba
 import jieba.analyse
@@ -19,7 +18,7 @@ logger.setLevel(logging.DEBUG)
 if __name__ == '__main__':
   fname = sys.argv[1]
   logger.debug(fname)
-  return_rules = myltp.ReturnRules()
+  return_rules = mybaselib.ReturnRules()
   return_rules.Load(fname)
 
   sentence = '向日葵餐厅秩怎么样'

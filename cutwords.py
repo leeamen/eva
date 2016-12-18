@@ -1,7 +1,6 @@
 #!/usr/bin/python
 #coding:utf-8
-from mltoolkits import *
-import myltpmodel as myltp
+import mybaselib
 import logging
 import jieba
 import jieba.analyse
@@ -40,7 +39,7 @@ def cutwords(filename, userdata):
       line = rf.readline()
       if line is None or len(line) == 0:
         break;
-      row = myltp.Row(line)
+      row = mybaselib.Row(line)
       sentence = row.GetSentence()
       #切词
       cut_list = jieba.lcut(sentence, cut_all = False)
@@ -59,24 +58,22 @@ if __name__ == '__main__':
   userdata['output'] = './data/all.cuts'
   os.system('rm -f ./data/all.cuts')
   walktree('data', cutwords, userdata)
+
   sys.exit()
+
 #  jieba.analyse.extract_tags(sentence, topK=20, withWeight=False, allowPOS=())
   #自己设置语料库
 #  corpus_file = '***.corpus'
 #  tags = jieba.analyse.extract_tags('该类会将文本中的词语转换为词频矩阵', topK=5)
 #  print '|'.join(tags)
   filename = sys.argv[1]
-  #'user_tag_query.2W.TRAIN.csv'
-#  rawdata = np.loadtxt(filename , dtype = np.object)
-#  label_data = rawdata[:,0:4]
-#  sentence_data = rawdata[:,4:]
   wf = open(filename + '.cuts', 'wb')
   with open(filename, 'rb') as rf:
     while True:
       line = rf.readline()
       if line is None or len(line) == 0:
         break;
-      row = myltp.Row(line)
+      row = mybaselib.Row(line)
       sentence = row.GetSentence()
       sentence = sentence.strip()
       #切词

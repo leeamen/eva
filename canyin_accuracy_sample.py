@@ -1,8 +1,7 @@
 #!/usr/bin/python
 #coding:utf8
-import model_test as mymodel
-import myltpmodel as myltp
-import mltoolkits.mylog as mylog
+import mymodel
+import mybaselib
 import logging
 import sys
 import os
@@ -30,7 +29,7 @@ if __name__ == '__main__':
     lines = rf.readlines()
     N = len(lines)
     for line in lines:
-      row = myltp.Row(line)
+      row = mybaselib.Row(line)
       params,re_type = canyin_model.GenParamAndReturntype(row.GetSentence())
       keys = params.keys()
       i = 0
@@ -49,8 +48,6 @@ if __name__ == '__main__':
       if len(params) == len(keys) and i >= len(keys):
         T+=1
         logger.debug('参数相同')
-#      else:
-#        logger.debug('sent:%s, i:%d,参数个数:%d:%d', row.GetSentence(), i, len(keys), len(params))
 #      time.sleep(1)
   logger.info('N:%d,T:%d', N, T)
   logger.info('准确率:%f', T*1.0/N)

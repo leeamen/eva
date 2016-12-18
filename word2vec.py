@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #coding:utf-8
 
-from mltoolkits import *
+import mybaselib
 import logging
 import os
 import sys
@@ -24,7 +24,7 @@ def word2vec(inp, outp1, outp2):
 #  bigram_transformer = gensim.models.Phrases(sentences, delimiter = '')
 #  model = gensim.models.Word2Vec(bigram_transformer[sentences], size=100, window=2, min_count=1,
 #            workers=multiprocessing.cpu_count())
-  model = gensim.models.Word2Vec(sentences, size=100, window=2, min_count=1,
+  model = gensim.models.Word2Vec(sentences, size=100, window = 2, min_count=1,
             workers=multiprocessing.cpu_count())
     #model.init_sims(replace=True)
     # trim unneeded model memory = use(much) less RAM
@@ -43,12 +43,12 @@ if __name__ == '__main__':
  
   # check and process input arguments
   if len(sys.argv) < 4:
-      print globals()['__doc__'] % locals()
+      logger.error('参数少')
       sys.exit(1)
   #inp:句子切词后的文件, outp1:模型,outp2:模型转向量
   inp, outp1, outp2 = sys.argv[1:4]
   model = word2vec(inp, outp1, outp2)
-  logger.debug('%f', model.similarity('蛋糕'.decode('utf8'), '饭店'.decode('utf8')))
+#  logger.debug('%f', model.similarity('蛋糕'.decode('utf8'), '饭店'.decode('utf8')))
   #print model.index2word[10].decode('utf8')
 
   #tfidf

@@ -1,7 +1,6 @@
 #!/usr/bin/python
 #coding:utf8
-import mltoolkits.mylog as mylog
-import myltpmodel as myltp
+import mybaselib
 import logging
 import os
 import stat
@@ -40,7 +39,7 @@ def GenUserdict(fname, userdata):
       line = rf.readline()
       if line is None or len(line) == 0:
         break;
-      row = myltp.Row(line)
+      row = mybaselib.Row(line)
       for key in row.ParamKeys():
         #词 + 词频(可省略) + 属性(可省略)
         wf.write(row.ParamValue(key) + ' 3' + '\n')
@@ -54,6 +53,7 @@ if __name__ == '__main__':
   userdata['output'] = './data/userdict.data'
   os.system('rm -f ' + userdata['output'])
   walktree('data', GenUserdict, userdata)
+
   sys.exit()
 
   input1 = sys.argv[1]
@@ -61,6 +61,6 @@ if __name__ == '__main__':
 #  GenUserdict(input1, output)
 
   #test
-  jieba.load_userdict('userdict.txt')
+  jieba.load_userdict('userdict.data')
   sentence = '乡村之屋饭店的扇贝酱烩饭好吗'
   logger.debug('%s', '|'.join(jieba.lcut(sentence, cut_all = False)))

@@ -1,7 +1,6 @@
 #!/usr/bin/python
 #coding:utf-8
-import mltoolkits.mylog as mylog
-import myltpmodel as myltp
+import mybaselib
 import logging
 import jieba
 import jieba.analyse
@@ -21,7 +20,7 @@ def GetEntityClustersData(filename):
       line = rf.readline()
       if line is None or len(line) == 0:
         break;                                                                                             
-      row = myltp.Row(line)                                                                                
+      row = mybaselib.Row(line)                                                                                
       for key in row.ParamKeys():                                                                          
         if all_data.has_key(key) is False:                                                                 
           all_data[key] = {}                                                                               
@@ -53,7 +52,7 @@ if __name__ == '__main__':
       line = rf.readline()
       if line is None or len(line) == 0:
         break;
-      row = myltp.Row(line)
+      row = mybaselib.Row(line)
       for key in row.ParamKeys():
         if all_data.has_key(key) is False:
           all_data[key] = {}
