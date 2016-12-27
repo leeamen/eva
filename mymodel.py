@@ -14,7 +14,7 @@ sys.setdefaultencoding('utf8')
 
 program = os.path.basename(sys.argv[0])
 logger = logging.getLogger(program)
-logger.setLevel(level=logging.INFO)
+logger.setLevel(level=logging.DEBUG)
 
 from gensim.corpora import WikiCorpus
 from gensim.models import Word2Vec
