@@ -10,6 +10,9 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+logging.disable(logging.DEBUG)
+#hdlr = logging.FileHandler(sys.argv[0]+'.log', 'w')
+#logger.addHandler(hdlr)
 
 if __name__ == '__main__':
   # check and process input arguments
@@ -42,7 +45,7 @@ if __name__ == '__main__':
         value = row.ParamValue(key)
         logger.debug('%s %s %s %s', row.GetSentence(), key, params[key], value)
         if value is None or value != params[key]:
-          logger.info('%s,%s, %s %s', row.GetSentence(), key, value, params[key])
+          logger.warn('%s,%s, %s %s', row.GetSentence(), key, value, params[key])
           break
         i+=1
       if len(params) == len(keys) and i >= len(keys):

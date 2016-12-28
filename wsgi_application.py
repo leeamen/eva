@@ -21,7 +21,7 @@ from spyne.model.primitive.string import ImageUri
 from spyne.model.primitive.string import Ltree
 
 reload(sys)
-sys.setdefaultencoding('utf-8')
+sys.setdefaultencoding('utf8')
 
 from spyne import Application, rpc, ServiceBase,\
     Integer, Unicode
@@ -32,20 +32,32 @@ from spyne.server.wsgi import WsgiApplication
 
 class SentenceModeldService(ServiceBase):
   #远程服务
-  @rpc(Unicode, _returns=AnyDict())#Iterable(Unicode))
+  @rpc(String, _returns=AnyDict())#Iterable(Unicode))
   def canyin(ctx, sentence):
 #    global logger
 #    global canyin_model
 
     logger.debug('调用餐饮接口')
     logger.debug('句子:%s', sentence)
+    logger.debug('type:%s', sentence.__class__)
+
+    result_dict = {}
+    result_params = []
+    result_dict['params'] = result_params
 
     params, return_type = canyin_model.GenParamAndReturntype(sentence)
     logger.info('return_type:%s', return_type)
     for key in params.keys():
       logger.debug('%s:%s', key, params[key])
-    params['return_type'] = return_type
-    return params
+      logger.debug('type:%s', params[key].__class__)
+
+      obj = {}
+      obj['attr_name'] = key
+      obj['attr_value'] = params[key]
+      result_params.append(obj)
+
+    result_dict['return_type'] = return_type
+    return result_dict
     
 if __name__ == '__main__':
   if len(sys.argv) < 5:
