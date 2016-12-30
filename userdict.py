@@ -42,7 +42,8 @@ def GenUserdict(fname, userdata):
       row = mybaselib.Row(line)
       for key in row.ParamKeys():
         #词 + 词频(可省略) + 属性(可省略)
-        wf.write(row.ParamValue(key) + ' 3' + '\n')
+#        wf.write(row.ParamValue(key) + ' 3' + '\n')
+        wf.write(row.ParamValue(key) + '\n')
   wf.flush()
   wf.close()
 
@@ -56,11 +57,12 @@ if __name__ == '__main__':
 
   sys.exit()
 
-  input1 = sys.argv[1]
-  output = './data/userdict.data'
+#  input1 = sys.argv[1]
+#  output = './data/userdict.data'
 #  GenUserdict(input1, output)
 
   #test
-  jieba.load_userdict('userdict.data')
-  sentence = '乡村之屋饭店的扇贝酱烩饭好吗'
-  logger.debug('%s', '|'.join(jieba.lcut(sentence, cut_all = False)))
+#  jieba.load_userdict('./data/userdict.data')
+#  sentence = '乡村之屋饭店日落是较快的吗'
+#  logger.debug('%s', '|'.join(jieba.lcut(sentence, cut_all = False)))
+
