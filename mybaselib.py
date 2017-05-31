@@ -6,7 +6,7 @@ import sys
 import xml.etree.cElementTree as et
 import os
 import re
-import pyltp as ltp
+#import pyltp as ltp
 import time
 import csv
 

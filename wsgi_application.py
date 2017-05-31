@@ -20,6 +20,10 @@ from spyne.model.primitive.string import Uuid
 from spyne.model.primitive.string import ImageUri
 from spyne.model.primitive.string import Ltree
 
+#from twisted.internet import reactor
+#from twisted.web.server import Site
+#from twisted.web.wsgi import WSGIResource
+
 reload(sys)
 sys.setdefaultencoding('utf8')
 
@@ -77,9 +81,15 @@ if __name__ == '__main__':
   #定义应用
   application = Application([SentenceModeldService],
     tns='spyne.sentmodel',
-    in_protocol=HttpRpc(validator='soft'),
+    in_protocol=HttpRpc(),
     out_protocol=JsonDocument(),
   )
+
+#  resource = WSGIResource(reactor, reactor, wsgi_application)
+#  site = Site(resource)
+#  reactor.listenTCP(8000, site, interface='0.0.0.0')
+#  sys.exit(reactor.run())
+#
   from wsgiref.simple_server import make_server
   wsgi_app = WsgiApplication(application)
   server = make_server('0.0.0.0', 8000, wsgi_app)
