@@ -23,3 +23,9 @@ py wsgi_application.py ./data/userdict.data ./data/model.vector ./data/gen_quest
 客户端访问
 curl "http://localhost:8000/canyin?sentence=我想吃烤布丁饼"|py -m json.tool 
 
+
+2017
+GBDT分类
+程序执行方式：
+py tfidf.py ./data/all.cuts ./data/full_template.txt
+
