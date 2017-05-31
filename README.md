@@ -18,3 +18,8 @@ py canyin_accuracy_sample.py ./data/userdict.data ./data/model.vector ./data/gen
 说明：
 词向量100维，窗口2，阈值0.7
 
+webservice启动
+py wsgi_application.py ./data/userdict.data ./data/model.vector ./data/gen_question_canyin.txt ./data/canyin.return.rules
+客户端访问
+curl "http://localhost:8000/canyin?sentence=我想吃烤布丁饼"|py -m json.tool 
+
